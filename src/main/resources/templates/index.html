@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Inventory Management</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header>
+    <h1>ABC Retail Solutions &mdash; Inventory</h1>
+    <p>EAD DevOps Lab sample application &middot; REST API at <code>/api/products</code> &middot; health at <code>/actuator/health</code></p>
+</header>
+
+<main>
+    <div th:if="${message}" class="flash message" th:text="${message}"></div>
+    <div th:if="${error}" class="flash error" th:text="${error}"></div>
+
+    <section class="cards">
+        <div class="card"><div class="label">Products</div><div class="value" th:text="${summary.totalProducts()}">0</div></div>
+        <div class="card"><div class="label">Units in stock</div><div class="value" th:text="${summary.totalUnits()}">0</div></div>
+        <div class="card"><div class="label">Stock value (LKR)</div><div class="value" th:text="${#numbers.formatDecimal(summary.totalValue(), 1, 'COMMA', 2, 'POINT')}">0</div></div>
+        <div class="card"><div class="label">Low stock items</div><div class="value" th:text="${summary.lowStockCount()}">0</div></div>
+    </section>
+
+    <section class="panel">
+        <h2>Products</h2>
+        <table id="product-table">
+            <thead>
+            <tr>
+                <th>SKU</th><th>Name</th><th>Category</th>
+                <th class="num">Qty</th><th class="num">Reorder at</th><th class="num">Price (LKR)</th>
+                <th>Status</th><th>Adjust stock</th><th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="p : ${products}">
+                <td th:text="${p.sku}">SKU</td>
+                <td th:text="${p.name}">Name</td>
+                <td th:text="${p.category}">Category</td>
+                <td class="num" th:text="${p.quantity}">0</td>
+                <td class="num" th:text="${p.reorderLevel}">0</td>
+                <td class="num" th:text="${#numbers.formatDecimal(p.price, 1, 'COMMA', 2, 'POINT')}">0.00</td>
+                <td>
+                    <span th:if="${p.lowStock}" class="badge low">Low stock</span>
+                    <span th:unless="${p.lowStock}" class="badge ok">In stock</span>
+                </td>
+                <td>
+                    <form class="inline" th:action="@{/products/{id}/stock(id=${p.id})}" method="post">
+                        <input class="delta" type="number" name="delta" value="1" aria-label="Quantity change">
+                        <button class="small" type="submit">Apply</button>
+                    </form>
+                </td>
+                <td>
+                    <form class="inline" th:action="@{/products/{id}/delete(id=${p.id})}" method="post">
+                        <button class="small danger" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(products)}"><td colspan="9">No products yet.</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="panel">
+        <h2>Add a product</h2>
+        <form class="grid" th:action="@{/products}" th:object="${newProduct}" method="post">
+            <div><label for="sku">SKU</label><input id="sku" type="text" th:field="*{sku}">
+                <div class="field-error" th:if="${#fields.hasErrors('sku')}" th:errors="*{sku}"></div></div>
+            <div><label for="name">Name</label><input id="name" type="text" th:field="*{name}">
+                <div class="field-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div></div>
+            <div><label for="category">Category</label><input id="category" type="text" th:field="*{category}"></div>
+            <div><label for="quantity">Quantity</label><input id="quantity" type="number" th:field="*{quantity}">
+                <div class="field-error" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></div></div>
+            <div><label for="price">Price</label><input id="price" type="number" step="0.01" th:field="*{price}">
+                <div class="field-error" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div></div>
+            <div><label for="reorderLevel">Reorder level</label><input id="reorderLevel" type="number" th:field="*{reorderLevel}">
+                <div class="field-error" th:if="${#fields.hasErrors('reorderLevel')}" th:errors="*{reorderLevel}"></div></div>
+            <div style="align-self:end"><button type="submit">Add product</button></div>
+        </form>
+    </section>
+</main>
+
+<footer>inventory-app v1.0.0</footer>
+</body>
+</html>

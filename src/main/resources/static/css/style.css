@@ -1,0 +1,37 @@
+:root {
+  --bg: #f5f6f8; --card: #fff; --ink: #1d2433; --muted: #667085; --line: #e4e7ec;
+  --accent: #2563eb; --warn-bg: #fff4e5; --warn: #b54708; --ok-bg: #e7f6ec; --ok: #067647;
+  --err-bg: #fdecec; --err: #b42318;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--ink); }
+header { background: #111827; color: #fff; padding: 18px 24px; }
+header h1 { margin: 0; font-size: 1.25rem; }
+header p { margin: 4px 0 0; color: #9ca3af; font-size: .85rem; }
+main { max-width: 1050px; margin: 24px auto; padding: 0 16px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-bottom: 20px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+.card .label { color: var(--muted); font-size: .8rem; }
+.card .value { font-size: 1.5rem; font-weight: 600; margin-top: 4px; }
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px; margin-bottom: 20px; overflow-x: auto; }
+.panel h2 { margin: 0 0 12px; font-size: 1rem; }
+table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+th, td { text-align: left; padding: 9px 8px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { color: var(--muted); font-weight: 500; font-size: .8rem; }
+td.num, th.num { text-align: right; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: .75rem; font-weight: 600; }
+.badge.low { background: var(--warn-bg); color: var(--warn); }
+.badge.ok { background: var(--ok-bg); color: var(--ok); }
+form.inline { display: inline-flex; gap: 4px; align-items: center; }
+form.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; align-items: start; }
+label { display: block; font-size: .8rem; color: var(--muted); margin-bottom: 3px; }
+input[type=text], input[type=number] { width: 100%; padding: 8px; border: 1px solid var(--line); border-radius: 6px; font: inherit; }
+input.delta { width: 64px; padding: 4px 6px; }
+button { padding: 8px 14px; border: 0; border-radius: 6px; background: var(--accent); color: #fff; font: inherit; cursor: pointer; }
+button.small { padding: 4px 9px; font-size: .8rem; }
+button.danger { background: #d92d20; }
+.field-error { color: var(--err); font-size: .75rem; margin-top: 2px; }
+.flash { padding: 10px 14px; border-radius: 8px; margin-bottom: 14px; font-size: .9rem; }
+.flash.message { background: var(--ok-bg); color: var(--ok); }
+.flash.error { background: var(--err-bg); color: var(--err); }
+footer { text-align: center; color: var(--muted); font-size: .8rem; margin: 30px 0; }
