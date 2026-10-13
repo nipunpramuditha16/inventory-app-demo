@@ -18,7 +18,7 @@ class CalculatorTest {
     @Test
     void addReturnsSum() {
         // Lab Task 5: change 30 to 100 to make this test (and the pipeline) fail on purpose.
-        assertEquals(30, calculator.add(40, 20));
+        assertEquals(30, calculator.add(10, 20));
     }
 
     @Test
